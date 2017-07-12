@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename ='styles.css')}}">
+    <title>Email Validation</title>
+  </head>
+  <body>
+    {% if in_db == 'fail' %}
+    <div id='fail'>Error: Email not valid - already in database</div>
+    {% elif in_db == 'success'%}
+    <div id='success'>Success! The email has been submitted</div>
+    {% else %}
+    <div id='shh'></div>
+    {% endif %}
+    <form action='/input' method='post'>
+        <input type='text' name='address' placeholder='Input email here'>
+        <input type='submit' value='Submit'>
+    </form>
+  </body>
+</html>
