@@ -7,11 +7,15 @@ app.secret_key = 'validate'
 @app.route('/')
 def index():
     emails = mysql.query_db('SELECT * FROM emails')
-    print emails
     if 'valid' not in session:
         session['valid'] = 'init'
     #session_hold = session['valid']
     return render_template('index.html', in_db = session['valid'])
+
+@app.route('/success')
+def display_success_page():
+    emails = mysql.query_db('SELECT * FROM emails')
+    return render_template('success.html', email_list = emails)
 
 @app.route('/input', methods=['POST'])
 def add_email():
@@ -24,13 +28,24 @@ def add_email():
     check = count[0].values()
     if check [0] == 0:
         print "Email valid. Not already in list"
-        query = 'INSERT INTO emails (address) VALUES (:address)'
+        query = 'INSERT INTO emails (address, created_at) VALUES (:address, NOW())'
         mysql.query_db(query, email_data)
         session['valid'] = 'success'
+        return redirect('/success')
     else:
         session['valid'] = 'fail'
+        return redirect('/')
+
+@app.route('/goback')
+def goback():
+    session.pop('valid')
     return redirect('/')
 
-
+@app.route('/delete-entry', methods=['POST'])
+def delete_entry():
+    hidden_id = request.form['del_id']
+    del_query = "DELETE FROM emails WHERE address = '" + hidden_id + "'"
+    mysql.query_db(del_query)
+    return redirect('/success')
 
 app.run(debug=True)

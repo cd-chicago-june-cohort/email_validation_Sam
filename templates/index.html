@@ -9,8 +9,6 @@
   <body>
     {% if in_db == 'fail' %}
     <div id='fail'>Error: Email not valid - already in database</div>
-    {% elif in_db == 'success'%}
-    <div id='success'>Success! The email has been submitted</div>
     {% else %}
     <div id='shh'></div>
     {% endif %}

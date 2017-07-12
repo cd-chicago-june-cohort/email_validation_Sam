@@ -1,3 +1,7 @@
 #shh{
     display: hidden;
 }
+
+td{
+    padding-right: 10px;
+}

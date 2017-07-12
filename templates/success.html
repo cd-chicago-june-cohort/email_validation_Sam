@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename ='styles.css')}}">
+    <title>Submission successful!</title>
+  </head>
+  <body>
+    <h2>Success! The email has been submitted</h2>
+    <h3>Emails submitted:</h3>
+    <form action='/delete-entry' id='del' method='post'></form>
+    <table>
+        <tbody>
+            {% for email in email_list %}
+            <tr>
+                <td>
+                    <input type='hidden' value={{email.address}} form='del' name='del_id'>
+                    <input type='submit' value='[ X ]' form='del'>
+                </td>
+                <td>{{email.address}}</td>
+                <td>{{email.created_at.strftime('%x')}}</td>
+                <td>{{email.created_at.strftime('%I:%M %p')}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <form action='/goback'>
+        <input type='submit' value='Submit Another'>
+    </form>
+  </body>
+</html>
